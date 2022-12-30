@@ -11,7 +11,6 @@
 
 <script>
 import navBar from './components/navBar.vue'
-
 export default {
 	name: 'App',
 	data () {
@@ -27,5 +26,14 @@ export default {
 
 <style lang="scss">
 @import '@/assets/scss/main.scss';
+
+html, body { 	
+    overflow-x: hidden;
+	height: 100vh;
+}
+::-webkit-scrollbar {
+    width: 0; 
+    background: transparent; 
+}
 
 </style>

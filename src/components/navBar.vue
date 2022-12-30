@@ -1,31 +1,24 @@
 <template>
     <div>
-        <v-app-bar 
-            class="d-flex flex-row justify-center"
-            dense
-            elevation="2"
+        <v-card 
+            class="d-flex flex-row justify-center py-2"
+            elevation="5"
         >
             <v-btn
                 class="nav-btn"
+                width="300px"
+                to="/"
             >
-                <router-link 
-                    class="nav-link"
-                    to="/"
-                >
-                    Рекрутинг
-                </router-link>
+                Рекрутинг
             </v-btn>
             <v-btn
                 class="nav-btn"
+                width="300px"
+                to="/tradeChat"
             >
-                <router-link
-                    class="nav-link"
-                    to="/tradeChat"
-                >
-                    Торговый чат
-                </router-link>
+                Торговый чат
             </v-btn>
-        </v-app-bar>
+        </v-card>
     </div>
 </template>
 
