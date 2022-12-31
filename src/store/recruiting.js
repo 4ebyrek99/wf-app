@@ -7,19 +7,22 @@ export default {
 			{ name: "Акси", img: "axi" },
         ],
         quality: [
-            "Нетронутая", 
-            "Необычная", 
-            "Бесподобная", 
-            "Сияющая"
+            { text: "Нетронутая", id: 0 },
+            { text: "Необычная", id: 1 },
+            { text: "Бесподобная", id: 2},
+            { text: "Сияющая", id: 3}
         ],
-        links: localStorage.getItem('recruitingLinks') || []
+        links: JSON.parse(localStorage.getItem('recruitingLinks')) || []
     },
     actions: {
-        addLink({ commit }, data) {
-            // text:`[Реликвия ${this.relic.name} ${this.relicNum.toUpperCase()}] ${this.qualityNum.text} +${this.playerCount}`,
-			// 				image: `relics/${this.relic.img}${String(this.qualityNum.id)}.png`
-            commit('setLink', data)
-        }
+        addLink({ commit, getters }, data) {
+            let links = getters.getRecruitingLinks
+
+            links.push(data)
+            localStorage.setItem("recruitingLinks", JSON.stringify(links))
+
+            commit('setLink', links)
+        },
     },
     mutations: {
         setLink(state, link) {
@@ -32,6 +35,9 @@ export default {
         },
         getQuality(state) {
             return state.quality
+        },
+        getRecruitingLinks(state) {
+            return state.links
         }
     }
 }

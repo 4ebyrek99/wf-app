@@ -1,9 +1,8 @@
 <template>
 	<v-card
-        class="mt-5 pa-5"
+        class="mt-5 pa-5 main-card"
         elevation="5"
         width="100%"
-		height="80vh"
     >
 		<v-row
 			class="grid"
@@ -25,7 +24,6 @@
 						v-model="numberRelic"
 						solo
 						maxlength="3"
-						clearable
 						label="Номер реликвии"
 						clear-icon="mdi-delete"
 					>
@@ -42,6 +40,8 @@
 						v-model="qualityRelic" 
 						label="Улучшение" 
 						:items="quality"
+						item-text="text"
+						return-object
 					>
 					</v-select>
 					<v-btn 
@@ -61,10 +61,6 @@
 				</v-col>
 			</v-card>
 		</v-row>
-		<v-snackbar :color="snackbar.color" v-model="snackbar.active" :timeout="snackbar.timeout">
-			<v-icon>{{snackbar.icon}}</v-icon>
-			{{snackbar.msg}}
-		</v-snackbar>
     </v-card>
 </template>
 
@@ -80,7 +76,10 @@ export default {
 			},
 			numberRelic: 'A1',
 			playerCount: 3,
-			qualityRelic: "Нетронутая",
+			qualityRelic: { 
+				id: 0,
+				text: "Нетронутая"
+			},
 			maxLinks: 20,
 		}
 	},
@@ -94,14 +93,22 @@ export default {
 	},
 	methods: {
 		addLink() {
-			if(this.relicNum === "" || this.playerCount === ""  || this.qualityRelic.text === "") {
+			if(this.numberRelic !== "") {
+				this.$store.dispatch('addLink', {
+					selectRelic: this.selectRelic,
+					numberRelic: this.numberRelic,
+					playerCount: this.playerCount,
+					qualityRelic: this.qualityRelic
+				})
+			} else {
+				this.$emit("showSnackbar", {
+					active: true,
+					timeout: 2000,
+					msg: "Номер реликвии не введён!",
+					color: "error",
+					icon: "mdi-alert-circle-outline"
+				})
 			}
-			// this.$store.dispatch('addLink', {
-			// 	selectRelic: this.selectRelic,
-			// 	numberRelic: this.numberRelic,
-			// 	playerCount: this.playerCount,
-			// 	qualityRelic: this.qualityRelic
-			// })
 		}
 	}
 }
@@ -110,6 +117,7 @@ export default {
 <style lang="scss" scoped>
 	.grid {
 		display: grid;
-		grid-template-columns: 1fr 2fr;
+		grid-template-columns: 0.7fr 2fr;
+		height: 100%;
 	}
 </style>

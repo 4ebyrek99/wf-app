@@ -3,7 +3,17 @@
 		<v-main>
 			<v-container>
 				<navBar/>
-				<router-view/>
+				<router-view @showSnackbar="showSnackbar"/>
+				<v-snackbar 
+					:color="snackbar.color" 
+					v-model="snackbar.active" 
+					:timeout="snackbar.timeout"
+				>
+					<v-icon>
+						{{snackbar.icon}}
+					</v-icon>
+					{{snackbar.msg}}
+				</v-snackbar>
 			</v-container>
 		</v-main>
 	</v-app>
@@ -15,11 +25,31 @@ export default {
 	name: 'App',
 	data () {
 		return {
-
+			snackbar:{
+				active: false,
+				timeout: 2000,
+				msg: "",
+				color: "",
+				icon: ""
+			},
 		}
 	},
 	components: {
 		navBar
+	},
+	mounted() {
+	},
+	methods: {
+		showSnackbar(data) {
+			console.log(0);
+			this.snackbar = {
+				active: data.active,
+				timeout: data.timeout,
+				msg: data.msg,
+				color: data.color,
+				icon: data.icon
+			}
+		}
 	}
 };
 </script>
