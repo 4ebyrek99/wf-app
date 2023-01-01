@@ -1,22 +1,22 @@
 <template>
-	<v-app>
-		<v-main>
-			<v-container>
-				<navBar/>
-				<router-view @showSnackbar="showSnackbar"/>
-				<v-snackbar 
-					:color="snackbar.color" 
-					v-model="snackbar.active" 
-					:timeout="snackbar.timeout"
-				>
-					<v-icon>
-						{{snackbar.icon}}
-					</v-icon>
-					{{snackbar.msg}}
-				</v-snackbar>
-			</v-container>
-		</v-main>
-	</v-app>
+		<v-app>
+			<v-main>
+				<v-container>
+					<navBar/>
+					<router-view @showSnackbar="showSnackbar"/>
+					<v-snackbar 
+						:color="snackbar.color" 
+						v-model="snackbar.active" 
+						:timeout="snackbar.timeout"
+					>
+						<v-icon>
+							{{snackbar.icon}}
+						</v-icon>
+						{{snackbar.msg}}
+					</v-snackbar>
+				</v-container>
+			</v-main>
+		</v-app>
 </template>
 
 <script>
@@ -37,11 +37,8 @@ export default {
 	components: {
 		navBar
 	},
-	mounted() {
-	},
 	methods: {
 		showSnackbar(data) {
-			console.log(0);
 			this.snackbar = {
 				active: data.active,
 				timeout: data.timeout,
@@ -49,7 +46,7 @@ export default {
 				color: data.color,
 				icon: data.icon
 			}
-		}
+		},
 	}
 };
 </script>

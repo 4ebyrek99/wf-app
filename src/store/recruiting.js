@@ -23,10 +23,28 @@ export default {
 
             commit('setLink', links)
         },
+        deleteLink({ commit, getters }, index) {
+            let links = getters.getRecruitingLinks
+            links.splice(index, 1)
+            localStorage.setItem("recruitingLinks", JSON.stringify(links))
+            commit('deleteLink', links)
+        },
+        deleteAllLinks({ commit, getters }) {
+            let links = getters.getRecruitingLinks
+            links.splice(0, links.length)
+            localStorage.setItem("recruitingLinks", JSON.stringify(links))
+            commit('deleteAllLinks', links)
+        }
     },
     mutations: {
         setLink(state, link) {
             state.links = link
+        },
+        deleteLink(state, links) {
+            state.links = links
+        },
+        deleteAllLinks(state, links) {
+            state.links = links
         }
     },
     getters: {

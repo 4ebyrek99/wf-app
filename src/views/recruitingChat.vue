@@ -9,65 +9,85 @@
 		>
 			<v-card
 				class="mr-3"
+				elevation="5"
 			>
-				<v-col>
-					<v-select
-						v-model="selectRelic"
-						solo
-						:items="relics"
-						item-text="name"
-						label="Эра реликвии"
-						return-object
-					>
-					</v-select>
-					<v-text-field
-						v-model="numberRelic"
-						solo
-						maxlength="3"
-						label="Номер реликвии"
-						clear-icon="mdi-delete"
-					>
-					</v-text-field>
-					<v-select
-						solo
-						v-model="playerCount" 
-						label="Количество людей" 
-						:items="[1, 2, 3]"
-					>
-					</v-select>
-					<v-select
-						solo
-						v-model="qualityRelic" 
-						label="Улучшение" 
-						:items="quality"
-						item-text="text"
-						return-object
-					>
-					</v-select>
-					<v-btn 
-						class="" 
-						width="100%"
-						@click="addLink" 
-					>
-						Добавить
-					</v-btn>
+				<v-col
+					class="d-flex flex-column justify-space-between h-100"
+				>
+					<div>
+						<v-select
+							v-model="selectRelic"
+							solo
+							:items="relics"
+							item-text="name"
+							label="Эра реликвии"
+							return-object
+						>
+						</v-select>
+						<v-text-field
+							v-model="numberRelic"
+							solo
+							maxlength="3"
+							label="Номер реликвии"
+							clear-icon="mdi-delete"
+						>
+						</v-text-field>
+						<v-select
+							solo
+							v-model="playerCount" 
+							label="Количество людей" 
+							:items="[1, 2, 3]"
+						>
+						</v-select>
+						<v-select
+							solo
+							v-model="qualityRelic" 
+							label="Улучшение" 
+							:items="quality"
+							item-text="text"
+							return-object
+						>
+						</v-select>
+					</div>
+					<div>
+						<v-btn 
+							width="100%"
+							@click="addLink" 
+						>
+							Добавить
+						</v-btn>
+						<v-btn
+							class="mt-4"
+							width="100%"
+							@click="deleteAllLinks" 
+						>
+							Очистить список
+						</v-btn>
+					</div>
 				</v-col>
 			</v-card>
-			<v-card>
-				<v-col>
-					<v-card>
-
-					</v-card>
-				</v-col>
+			<v-card
+				class="overflow-y-auto py-2"
+				elevation="5"
+			>
+				<recruitingItemCard
+					:links="links"
+					@copyLink="copyLink"
+					@deleteLink="deleteLink"
+				/>
 			</v-card>
 		</v-row>
     </v-card>
 </template>
 
 <script>
+import recruitingItemCard from '@/components/itemCards/recruitingItemCard.vue'
 
 export default {
 	name: 'recruitingChat',
+	components:{
+		recruitingItemCard
+	},
 	data () {
 		return {
 			selectRelic: {
@@ -80,7 +100,7 @@ export default {
 				id: 0,
 				text: "Нетронутая"
 			},
-			maxLinks: 20,
+			maxLinks: process.env.VUE_APP_MAX_LINKS
 		}
 	},
 	computed: {
@@ -89,17 +109,31 @@ export default {
 		},
 		quality() {
 			return this.$store.getters['getQuality']
-		}
+		},
+		links() {
+			return this.$store.getters["getRecruitingLinks"]
+		},
 	},
 	methods: {
 		addLink() {
 			if(this.numberRelic !== "") {
-				this.$store.dispatch('addLink', {
-					selectRelic: this.selectRelic,
-					numberRelic: this.numberRelic,
-					playerCount: this.playerCount,
-					qualityRelic: this.qualityRelic
-				})
+				if(this.links.length >= this.maxLinks) {
+					this.$emit("showSnackbar", {
+						active: true,
+						timeout: 2000,
+						msg: "Максимальное количество элементов 20!",
+						color: "error",
+						icon: "mdi-alert-circle-outline"
+					})
+				} else {
+					this.$store.dispatch('addLink', {
+						selectRelic: this.selectRelic,
+						numberRelic: this.numberRelic,
+						playerCount: this.playerCount,
+						qualityRelic: this.qualityRelic,
+						linkToCopy: `[Реликвия ${this.selectRelic.name} ${this.numberRelic.toUpperCase()}] ${this.qualityRelic.text} +${this.playerCount}`,
+					})
+				}
 			} else {
 				this.$emit("showSnackbar", {
 					active: true,
@@ -107,6 +141,44 @@ export default {
 					msg: "Номер реликвии не введён!",
 					color: "error",
 					icon: "mdi-alert-circle-outline"
+				})
+			}
+		},
+		copyLink(){
+			this.$emit("showSnackbar", {
+					active: true,
+					timeout: 2000,
+					msg: "Скопированно!",
+					color: "success",
+					icon: "mdi-check"
+				})
+		},
+		deleteLink(){
+			this.$emit("showSnackbar", {
+					active: true,
+					timeout: 2000,
+					msg: "Удалено!",
+					color: "success",
+					icon: "mdi-check"
+				})
+		},
+		deleteAllLinks() {
+			if(this.links.length <= 0) {
+				this.$emit("showSnackbar", {
+						active: true,
+						timeout: 2000,
+						msg: "Список уже пуст!",
+						color: "error",
+						icon: "mdi-alert-circle-outline"
+					})
+			} else {
+				this.$store.dispatch('deleteAllLinks')
+				this.$emit("showSnackbar", {
+					active: true,
+					timeout: 2000,
+					msg: "Список был очищен!",
+					color: "success",
+					icon: "mdi-check"
 				})
 			}
 		}
