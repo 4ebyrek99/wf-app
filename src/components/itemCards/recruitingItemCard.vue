@@ -15,7 +15,7 @@
                     Реликвия {{ link.selectRelic.name }}
                 </v-card-title>
                 <div
-                    class="d-flex px-4 pb-4"
+                    class="d-flex pl-4 pr-2 pb-4 flex-row justify-space-between"
                 >
                     <div
                         class="d-flex flex-column justify-center"
@@ -34,18 +34,29 @@
                     </v-avatar>
                 </div>
                 <div
-                    class="pb-2 pl-3"
+                    class="pb-2 pl-3 d-flex flex-row justify-space-between"
                 >
-                    <v-btn
-                        @click="copyLink(index)" 
-                    >
-                        Копировать
-                    </v-btn>
+                    <div>
+                        <v-btn
+                            @click="copyLink(index)" 
+                        >
+                            Копировать
+                        </v-btn>
+                        <v-btn 
+                            class="ml-3"
+                            @click="deleteLink(index)"
+                        >
+                            Удалить
+                        </v-btn>
+                    </div>
                     <v-btn 
-                        @click="deleteLink(index)"
-                        class="ml-5"
+                        class="mr-2"
+                        icon
+                        @click="showDialog(index)"
                     >
-                        Удалить
+                        <v-icon>
+                            mdi-information-outline
+                        </v-icon>
                     </v-btn>
                 </div>
             </v-card>
@@ -66,7 +77,13 @@ export default {
 		deleteLink(index){
 			this.$store.dispatch('deleteLink', index)
             this.$emit("deleteLink")
-		}
+		},
+        showDialog(index) {
+            this.$emit("showDialog", {
+                index: index,
+                link: this.links[index]
+            })
+        }
     },
     computed: {
         cardWidth() {

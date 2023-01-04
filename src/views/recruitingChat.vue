@@ -74,8 +74,19 @@
 					:links="links"
 					@copyLink="copyLink"
 					@deleteLink="deleteLink"
+					@showDialog="showDialog"
 				/>
 			</v-card>
+			<v-dialog
+				v-model="showRelicInfo"
+				width="400"
+			>
+				<v-card>
+					<v-card-title>
+						Реликвия 
+					</v-card-title>
+				</v-card>
+			</v-dialog>
 		</v-row>
     </v-card>
 </template>
@@ -100,7 +111,8 @@ export default {
 				id: 0,
 				text: "Нетронутая"
 			},
-			maxLinks: process.env.VUE_APP_MAX_LINKS
+			maxLinks: process.env.VUE_APP_MAX_LINKS,
+			showRelicInfo: false
 		}
 	},
 	computed: {
@@ -181,6 +193,10 @@ export default {
 					icon: "mdi-check"
 				})
 			}
+		},
+		showDialog(link) {
+			this.showRelicInfo = true
+			console.log(link);
 		}
 	}
 }

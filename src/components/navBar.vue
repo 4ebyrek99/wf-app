@@ -35,7 +35,7 @@
 export default {
     data() {
         return {
-            darkTheme: JSON.parse(localStorage.getItem("darkTheme"))
+            darkTheme: JSON.parse(localStorage.getItem("darkTheme")) || true
         }
     },
     created() {
