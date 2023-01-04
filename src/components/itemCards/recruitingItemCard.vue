@@ -1,6 +1,6 @@
 <template>
     <div 
-        class="d-flex flex-grow-1 flex-wrap justify-center"
+        class="d-flex flex-grow-1 flex-wrap pl-5 pr-4 py-3"
     >
         <div
             v-for="(link, index) in links"
@@ -9,11 +9,11 @@
             <v-card
                 class="item-card ma-2"
                 elevation="5"
-                width="390"
+                :width="cardWidth"
             >
                 <v-card-title class="py-1">
                     Реликвия {{ link.selectRelic.name }}
-            </v-card-title>
+                </v-card-title>
                 <div
                     class="d-flex px-4 pb-4"
                 >
@@ -67,6 +67,20 @@ export default {
 			this.$store.dispatch('deleteLink', index)
             this.$emit("deleteLink")
 		}
+    },
+    computed: {
+        cardWidth() {
+            let breakpoint = this.$vuetify.breakpoint.name
+            const width = {
+                sm: 450,
+                md: 280,
+                lg: 390,
+                xl: 402
+
+            }
+            return width[breakpoint];
+
+        }
     }
 }
 </script>
