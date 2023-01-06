@@ -248,6 +248,7 @@ export default {
 		async showDialog(link) {
 			let find = this.$store.getters["getRelicsMap"](`${link.selectRelic.name} ${(link.numberRelic).toUpperCase()}`)
 			if(find) {
+				this.relicInfo = this.$store.getters["getRelicsMap"](`${link.selectRelic.name} ${(link.numberRelic).toUpperCase()}`)
 				this.loader = false
 				this.showRelicInfo = true
 			} else {
