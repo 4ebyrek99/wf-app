@@ -81,10 +81,59 @@
 				v-model="showRelicInfo"
 				width="400"
 			>
-				<v-card>
+				<v-card
+					v-if="loader"
+				>
 					<v-card-title>
-						Реликвия 
+						Загрузка
 					</v-card-title>
+					<div 
+						class="d-flex flex-row justify-center pa-6"
+					>
+						<v-progress-circular
+							:size="120"
+							:width="12"
+							color="teal lighten-4"
+							indeterminate
+						>
+						</v-progress-circular>
+					</div>
+				</v-card>
+				<v-card
+					v-else
+				>
+					<v-card-title>
+						Реликвия {{ relicInfo.name }}
+					</v-card-title>
+					<div
+						class="pa-4"
+					>
+						<v-simple-table>
+							<thead>
+								<tr>
+									<th>
+										Предмет
+									</th>
+									<th>
+										Стоимость в дукатах
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr
+									v-for="(item, index) in relicInfo.info"
+									:key="index"
+								>
+									<td>
+										{{ item.name }}
+									</td>
+									<td>
+										{{ item.ducats }}
+									</td>
+								</tr>
+							</tbody>
+						</v-simple-table>
+					</div>
 				</v-card>
 			</v-dialog>
 		</v-row>
@@ -112,7 +161,9 @@ export default {
 				text: "Нетронутая"
 			},
 			maxLinks: process.env.VUE_APP_MAX_LINKS,
-			showRelicInfo: false
+			showRelicInfo: false,
+			relicInfo: {},
+			loader: true
 		}
 	},
 	computed: {
@@ -194,9 +245,22 @@ export default {
 				})
 			}
 		},
-		showDialog(link) {
-			this.showRelicInfo = true
-			console.log(link);
+		async showDialog(link) {
+			let find = this.$store.getters["getRelicsMap"](`${link.selectRelic.name} ${(link.numberRelic).toUpperCase()}`)
+			if(find) {
+				this.loader = false
+				this.showRelicInfo = true
+			} else {
+				this.loader = true
+				this.showRelicInfo = true
+				await this.$store.dispatch('getRelicInfo', {
+					name: link.selectRelic.name,
+					number: link.numberRelic
+				})
+				this.relicInfo = this.$store.getters["getRelicsMap"](`${link.selectRelic.name} ${(link.numberRelic).toUpperCase()}`)
+				this.loader = false
+			}
+
 		}
 	}
 }

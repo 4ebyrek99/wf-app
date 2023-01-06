@@ -79,10 +79,7 @@ export default {
             this.$emit("deleteLink")
 		},
         showDialog(index) {
-            this.$emit("showDialog", {
-                index: index,
-                link: this.links[index]
-            })
+            this.$emit("showDialog", this.links[index])
         }
     },
     computed: {

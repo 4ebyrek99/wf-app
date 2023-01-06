@@ -1,3 +1,5 @@
+import axios from "axios"
+
 export default {
     state: {
         relics: [
@@ -12,7 +14,8 @@ export default {
             { text: "Бесподобная", id: 2},
             { text: "Сияющая", id: 3}
         ],
-        links: JSON.parse(localStorage.getItem('recruitingLinks')) || []
+        links: JSON.parse(localStorage.getItem('recruitingLinks')) || [],
+        relicsMap: {}
     },
     actions: {
         addLink({ commit, getters }, data) {
@@ -34,6 +37,14 @@ export default {
             links.splice(0, links.length)
             localStorage.setItem("recruitingLinks", JSON.stringify(links))
             commit('deleteAllLinks', links)
+        },
+        async getRelicInfo({ commit, getters }, data) {
+            let relicsMap = getters.getAllRelicsMap
+            let info = await axios.post(`api/items/relic`, data)
+            commit("setRelicMap", {
+                info: info.data,
+                relicsMap: relicsMap
+            })
         }
     },
     mutations: {
@@ -45,6 +56,16 @@ export default {
         },
         deleteAllLinks(state, links) {
             state.links = links
+        },
+        setRelicMap(state, item) {
+            state.relicsMap = {
+                ...state.relicsMap,
+                [item.info.id]: {
+                    name: item.info.id,
+                    info: item.info.info
+                },
+                
+            }
         }
     },
     getters: {
@@ -56,6 +77,12 @@ export default {
         },
         getRecruitingLinks(state) {
             return state.links
+        },
+        getRelicsMap: state => id => {
+            return state.relicsMap[id]
+        },
+        getAllRelicsMap(state) { 
+            return state.relicsMap
         }
     }
 }
