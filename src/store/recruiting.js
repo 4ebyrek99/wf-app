@@ -40,9 +40,11 @@ export default {
         },
         async getRelicInfo({ commit }, data) {
             let info = await axios.post(`api/items/relic`, data)
-            commit("setRelicMap", {
-                info: info.data,
-            })
+            if(info.data.success) {
+                commit("setRelicMap", {
+                    info: info.data,
+                })
+            }
         }
     },
     mutations: {
