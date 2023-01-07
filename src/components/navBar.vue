@@ -35,14 +35,16 @@
 export default {
     data() {
         return {
-            darkTheme: JSON.parse(localStorage.getItem("darkTheme")) || true
+            darkTheme: null
         }
     },
     created() {
         if (localStorage.getItem("darkTheme")) {
             this.$vuetify.theme.dark = JSON.parse(localStorage.getItem("darkTheme"))
+            this.darkTheme = JSON.parse(localStorage.getItem("darkTheme"))
         } else {
             localStorage.setItem("darkTheme", true)
+            this.darkTheme = true
             this.$vuetify.theme.dark = true
         }
     },

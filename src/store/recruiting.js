@@ -38,12 +38,10 @@ export default {
             localStorage.setItem("recruitingLinks", JSON.stringify(links))
             commit('deleteAllLinks', links)
         },
-        async getRelicInfo({ commit, getters }, data) {
-            let relicsMap = getters.getAllRelicsMap
+        async getRelicInfo({ commit }, data) {
             let info = await axios.post(`api/items/relic`, data)
             commit("setRelicMap", {
                 info: info.data,
-                relicsMap: relicsMap
             })
         }
     },
@@ -80,9 +78,6 @@ export default {
         },
         getRelicsMap: state => id => {
             return state.relicsMap[id]
-        },
-        getAllRelicsMap(state) { 
-            return state.relicsMap
         }
     }
 }
