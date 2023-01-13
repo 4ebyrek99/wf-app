@@ -82,79 +82,57 @@
 				width="400"
 			>
 				<v-card
-					class="d-flex flex-column justify-center"
 					v-if="loader"
-					height="432"
 				>
-					<!-- <v-card-title>
+					<v-card-title>
 						Загрузка
-					</v-card-title> -->
+					</v-card-title>
 					<div 
 						class="d-flex flex-row justify-center pa-6"
 					>
 						<v-progress-circular
-							:size="150"
+							:size="120"
 							:width="12"
 							color="teal lighten-4"
 							indeterminate
 						>
-							Загрузка
 						</v-progress-circular>
-						
 					</div>
 				</v-card>
 				<v-card
 					v-else
-					height="432"
 				>
+					<v-card-title>
+						Реликвия {{ relicInfo.name }}
+					</v-card-title>
 					<div
-						v-if="relicInfo"
+						class="pa-4"
 					>
-						<v-card-title>
-							Реликвия {{ relicInfo.name }}
-						</v-card-title>
-						<div
-							class="pa-4"
-						>
-							<v-simple-table>
-								<thead>
-									<tr>
-										<th>
-											Предмет
-										</th>
-										<th>
-											Стоимость в дукатах
-										</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr
-										v-for="(item, index) in relicInfo.info"
-										:key="index"
-									>
-										<td>
-											{{ item.name }}
-										</td>
-										<td>
-											{{ item.ducats }}
-										</td>
-									</tr>
-								</tbody>
-							</v-simple-table>
-						</div>
-					</div>
-					<div
-						v-else
-						class="d-flex flex-column justify-center h-100"
-					>
-						<div
-							class="d-flex flex-row justify-center pa-5"
-						>
-							<img src="../../public/error.svg">
-						</div>
-						<span class="text-center">
-							Реликвия не существует!
-						</span>
+						<v-simple-table>
+							<thead>
+								<tr>
+									<th>
+										Предмет
+									</th>
+									<th>
+										Стоимость в дукатах
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr
+									v-for="(item, index) in relicInfo.info"
+									:key="index"
+								>
+									<td>
+										{{ item.name }}
+									</td>
+									<td>
+										{{ item.ducats }}
+									</td>
+								</tr>
+							</tbody>
+						</v-simple-table>
 					</div>
 				</v-card>
 			</v-dialog>
@@ -270,7 +248,6 @@ export default {
 		async showDialog(link) {
 			let find = this.$store.getters["getRelicsMap"](`${link.selectRelic.name} ${(link.numberRelic).toUpperCase()}`)
 			if(find) {
-				this.relicInfo = this.$store.getters["getRelicsMap"](`${link.selectRelic.name} ${(link.numberRelic).toUpperCase()}`)
 				this.loader = false
 				this.showRelicInfo = true
 			} else {
@@ -283,15 +260,12 @@ export default {
 				this.relicInfo = this.$store.getters["getRelicsMap"](`${link.selectRelic.name} ${(link.numberRelic).toUpperCase()}`)
 				this.loader = false
 			}
+
 		}
 	}
 }
 </script>
 
 <style lang="scss" scoped>
-	.grid {
-		display: grid;
-		grid-template-columns: 0.7fr 2fr;
-		height: 100%;
-	}
+
 </style>
