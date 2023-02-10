@@ -81,11 +81,15 @@
 				v-model="showRelicInfo"
 				width="400"
 			>
-				<v-card>
+				<v-card
+					height="432"
+				>
 					<v-card-title
 						class="d-flex justify-space-between"
 					>
-						<span>{{ loader ? 'Загрузка' : relicInfo.name }}</span>
+						<span v-if="loader">Загрузка</span>
+						<span v-else-if="!loader && relicInfo">{{ relicInfo.name }}</span>
+						<span v-else>Реликвия не существует!</span>
 						<v-btn
 							icon
 							@click="showRelicInfo = false"
@@ -99,10 +103,10 @@
 						v-if="loader"
 					>
 						<div 
-							class="d-flex flex-row justify-center pa-6"
+							class="d-flex flex-row justify-center pt-8 pb-6 px-6"
 						>
 							<v-progress-circular
-								:size="120"
+								:size="150"
 								:width="12"
 								color="teal lighten-4"
 								indeterminate
@@ -116,7 +120,9 @@
 						<div
 							class="pa-4"
 						>
-							<v-simple-table>
+							<v-simple-table
+								v-if="relicInfo"
+							>
 								<thead>
 									<tr>
 										<th>
@@ -132,15 +138,21 @@
 										v-for="(item, index) in relicInfo.info"
 										:key="index"
 									>
-										<td>
-											{{ item.name }}
-										</td>
-										<td>
-											{{ item.ducats }}
-										</td>
+									<td>
+										{{ item.name }}
+									</td>
+									<td>
+										{{ item.ducats }}
+									</td>
 									</tr>
 								</tbody>
 							</v-simple-table>
+							<div
+								v-else
+								class="d-flex flex-row justify-center pa-6"
+							>
+								<img src="../../public/error.svg">
+							</div>
 						</div>
 					</div>
 				</v-card>
@@ -258,6 +270,7 @@ export default {
 			let find = this.$store.getters["getRelicsMap"](`${link.selectRelic.name} ${(link.numberRelic).toUpperCase()}`)
 			if(find) {
 				this.loader = false
+				this.relicInfo = this.$store.getters["getRelicsMap"](`${link.selectRelic.name} ${(link.numberRelic).toUpperCase()}`)
 				this.showRelicInfo = true
 			} else {
 				this.loader = true
