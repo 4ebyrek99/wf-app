@@ -81,58 +81,67 @@
 				v-model="showRelicInfo"
 				width="400"
 			>
-				<v-card
-					v-if="loader"
-				>
-					<v-card-title>
-						Загрузка
-					</v-card-title>
-					<div 
-						class="d-flex flex-row justify-center pa-6"
+				<v-card>
+					<v-card-title
+						class="d-flex justify-space-between"
 					>
-						<v-progress-circular
-							:size="120"
-							:width="12"
-							color="teal lighten-4"
-							indeterminate
+						<span>{{ loader ? 'Загрузка' : relicInfo.name }}</span>
+						<v-btn
+							icon
+							@click="showRelicInfo = false"
 						>
-						</v-progress-circular>
-					</div>
-				</v-card>
-				<v-card
-					v-else
-				>
-					<v-card-title>
-						Реликвия {{ relicInfo.name }}
+							<v-icon>
+								mdi-close-circle-outline
+							</v-icon>
+						</v-btn>
 					</v-card-title>
 					<div
-						class="pa-4"
+						v-if="loader"
 					>
-						<v-simple-table>
-							<thead>
-								<tr>
-									<th>
-										Предмет
-									</th>
-									<th>
-										Стоимость в дукатах
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr
-									v-for="(item, index) in relicInfo.info"
-									:key="index"
-								>
-									<td>
-										{{ item.name }}
-									</td>
-									<td>
-										{{ item.ducats }}
-									</td>
-								</tr>
-							</tbody>
-						</v-simple-table>
+						<div 
+							class="d-flex flex-row justify-center pa-6"
+						>
+							<v-progress-circular
+								:size="120"
+								:width="12"
+								color="teal lighten-4"
+								indeterminate
+							>
+							</v-progress-circular>
+						</div>
+					</div>
+					<div 
+						v-else
+					>
+						<div
+							class="pa-4"
+						>
+							<v-simple-table>
+								<thead>
+									<tr>
+										<th>
+											Предмет
+										</th>
+										<th>
+											Стоимость в дукатах
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr
+										v-for="(item, index) in relicInfo.info"
+										:key="index"
+									>
+										<td>
+											{{ item.name }}
+										</td>
+										<td>
+											{{ item.ducats }}
+										</td>
+									</tr>
+								</tbody>
+							</v-simple-table>
+						</div>
 					</div>
 				</v-card>
 			</v-dialog>

@@ -43,17 +43,14 @@ export default {
 	name: 'tradeChat',
 	data () {
 		return {
-			searchItems: null,
-			searchText: null
+
 		}
 	},
 	methods() {
 
 	},
 	watch: {
-		searchText(text) {
 
-		}
 	}
 }
 </script>
