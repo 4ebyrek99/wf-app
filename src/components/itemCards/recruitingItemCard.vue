@@ -20,7 +20,7 @@
                     <div
                         class="d-flex flex-column justify-center"
                     >
-                        <span>Номер реликии - {{ link.numberRelic.toUpperCase() }}</span>
+                        <span>Номер реликвии - {{ link.numberRelic.toUpperCase() }}</span>
                         <span>Улучшение реликвии - {{ link.qualityRelic.text }}</span>
                         <span>Количество людей - {{ link.playerCount }}</span>
                     </div>
