@@ -34,23 +34,27 @@
                     </v-avatar>
                 </div>
                 <div
-                    class="pb-2 pl-3 d-flex flex-row justify-space-between"
+                    class="pb-2 pl-3"
                 >
-                    <div>
-                        <v-btn
-                            @click="copyLink(index)" 
-                        >
-                            Копировать
-                        </v-btn>
-                        <v-btn 
-                            class="ml-3"
-                            @click="deleteLink(index)"
-                        >
-                            Удалить
-                        </v-btn>
-                    </div>
+                    <v-btn
+                        icon
+                        @click="copyLink(index)" 
+                    >
+                        <v-icon>
+                            mdi-content-copy
+                        </v-icon>
+                    </v-btn>
                     <v-btn 
-                        class="mr-2"
+                        class="ml-3"
+                        icon
+                        @click="deleteLink(index)"
+                    >
+                        <v-icon>
+                            mdi-trash-can-outline
+                        </v-icon>
+                    </v-btn>
+                    <v-btn 
+                        class="ml-3"
                         icon
                         @click="showDialog(index)"
                     >

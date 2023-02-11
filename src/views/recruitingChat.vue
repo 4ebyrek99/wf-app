@@ -18,6 +18,7 @@
 						<v-select
 							v-model="selectRelic"
 							solo
+							:menu-props="{ bottom: true, offsetY: true }"
 							:items="relics"
 							item-text="name"
 							label="Эра реликвии"
@@ -33,15 +34,17 @@
 						>
 						</v-text-field>
 						<v-select
-							solo
 							v-model="playerCount" 
+							solo
+							:menu-props="{ bottom: true, offsetY: true }"
 							label="Количество людей" 
 							:items="[1, 2, 3]"
 						>
 						</v-select>
 						<v-select
-							solo
 							v-model="qualityRelic" 
+							solo
+							:menu-props="{ bottom: true, offsetY: true }"
 							label="Улучшение" 
 							:items="quality"
 							item-text="text"
