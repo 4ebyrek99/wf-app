@@ -18,32 +18,57 @@
 						<v-select
 							v-model="selectRelic"
 							solo
+							dense
 							:menu-props="{ bottom: true, offsetY: true }"
 							:items="relics"
 							item-text="name"
-							label="Эра реликвии"
 							return-object
 						>
 						</v-select>
-						<v-text-field
-							v-model="numberRelic"
-							solo
-							maxlength="3"
-							label="Номер реликвии"
-							clear-icon="mdi-delete"
+						<div
+							class="d-flex flex-row justify-space-between"
 						>
-						</v-text-field>
-						<v-select
-							v-model="playerCount" 
-							solo
-							:menu-props="{ bottom: true, offsetY: true }"
-							label="Количество людей" 
-							:items="[1, 2, 3]"
-						>
-						</v-select>
+							<v-text-field
+								v-model="numberRelic"
+								solo
+								dense
+								maxlength="3"
+							>
+							</v-text-field>
+							<div
+								class="d-flex flex-row justify-space-between"
+							>
+								<v-btn
+									class="mx-2"
+									icon
+									@click="playerCounter('-')"
+								>
+									<v-icon>
+										mdi-minus
+									</v-icon>
+								</v-btn>
+								<v-text-field
+									v-model="playerCount" 
+									class="w-32p"
+									solo
+									dense
+									readonly
+								/>
+								<v-btn
+									class="ml-2"
+									icon
+									@click="playerCounter('+')"
+								>
+									<v-icon>
+										mdi-plus
+									</v-icon>
+								</v-btn>
+							</div>
+						</div>
 						<v-select
 							v-model="qualityRelic" 
 							solo
+							dense
 							:menu-props="{ bottom: true, offsetY: true }"
 							label="Улучшение" 
 							:items="quality"
@@ -286,6 +311,13 @@ export default {
 				this.loader = false
 			}
 
+		},
+		playerCounter(symbol) {
+			if (this.playerCount > 1 && symbol === '-') {
+				this.playerCount--
+			} else if (this.playerCount < 3 && symbol === '+') {
+				this.playerCount++
+			}
 		}
 	}
 }
