@@ -26,7 +26,6 @@ export default {
     },
     created () {
         this.randomImage = `/404/valkyr${Math.floor(Math.random() * 3)}.png`
-        console.log(this.randomImage);
     }
 }
 </script>
