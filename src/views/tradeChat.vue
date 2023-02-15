@@ -14,22 +14,14 @@
 				<v-col
 					class="d-flex flex-column justify-space-between h-100"
 				>
-					<v-autocomplete
-						v-model="searchText"
-						solo
-						label="Предмет"
-						:items="searchItems"
-						item-text="item_name"
-					>
 
-					</v-autocomplete>
 				</v-col>
 			</v-card>
 			<v-card
 				class="overflow-y-auto py-2"
 				elevation="5"
 			>
-				2
+			
 			</v-card>
 		</v-row>
 	</v-card>
