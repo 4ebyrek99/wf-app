@@ -19,7 +19,7 @@ const routes = [
 	},
 	{
 		path: '/404', 
-		name: '404', 
+		name: 'notFound', 
 		component: notFound, 
 	},
 	{
